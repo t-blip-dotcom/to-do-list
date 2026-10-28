@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/images/favicon.png">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <title>To Do List 101</title>
+</head>
+<body>
+    <div id="container">
+        <div id="top-bar" class="d-flex align-items-center">
+
+            <img src="assets/images/topbar.png" alt="to-do" id="top-bar-image">
+            <h1 class="text-center"> T's TO DO LIST</h1>
+
+         </div>
+        <div id="navigation" class="d-flex gap-2 p-1 justify-content-evenly">
+           <a href="#days-task" class="text-decoration-none text-reset ">Daily Tasks</a> 
+           <a href="#personal" class="text-decoration-none text-reset "> View Personal Tasks</a> 
+           <a href="#school" class="text-decoration-none text-reset ">View School Tasks</a> 
+           <a href="#errands" class="text-decoration-none text-reset ">View Errands</a> 
+           <a href="#createtask" class="text-decoration-none text-reset">Create New Task</a>
+        </div>
+        <div id="main-content">
+            <div id="tasks">
+                <h1 class="text-center"> ALL TASKS </h1>
+                <div id="all-tasks">
+                    
+                </div>
+            </div>
+            <div class="categories">
+                <div class="category" id="days-task">
+                    <h1 class="text-center">Todays Agendas </h1>
+                    <div id="daily-tasks">
+
+                    </div>
+                </div>
+                <div class="category" id="personal">
+                    <h1 class="text-center">Personal Tasks </h1>
+                    <div id="personaltasks">
+
+                    </div>
+                </div>
+                <div class="category" id="school">
+                    <h1 class="text-center">School Tasks </h1>
+                    <div id="schooltasks">
+
+                    </div>
+                </div>
+                <div class="category" id="errandstorun">
+                    <h1 class="text-center">Errands To run </h1>
+                    <div id="errands"></div>
+                </div>
+            </div>
+            <div id="createtask">
+                <h1 class="text-center">Create your Task</h1>
+                <form class="d-flex flex-column border-1 container" id="new-task">
+                    <label for="task-name">Task Name</label>
+                    <input type="text" id="task-name" name="Taskname" placeholder="Do Graphics Assignment" required>
+                    <label for="completed-date">Due Date</label>
+                    <input type="date"  id="completed-date" name="Duedate" required>
+
+                    <label for="category">Select the Category of task</label>
+                    <select name="Category" id="category" required>
+                        <option value="personal">Personal</option>
+                        <option value="school">School</option>
+                        <option value="errands">Errands</option>
+                    </select>
+                    <fieldset>
+                        <legend>Priority Level</legend>
+                        <input type="radio" name="priority" value="1" required>
+                        <input type="radio" name="priority" value="2" required>
+                        <input type="radio" name="priority" value="3" required>
+                        <input type="radio" name="priority" value="4" required>
+                        <input type="radio" name="priority" value="5" required>
+                    </fieldset>
+
+                    <div class="formbuttons">
+                        <button type="submit" class="btn ">Add Task</button>
+                        <button type="reset" class="btn">Clear Form</button>
+                    </div>
+
+            </form>
+            </div>
+
+    </div> 
+<script  src="script.js"></script>
+</body>
+</html>
