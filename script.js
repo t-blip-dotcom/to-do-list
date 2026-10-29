@@ -8,6 +8,7 @@ tasksForm.addEventListener("submit",function addTask(event)
     const newTasksData=new FormData(tasksForm)
     const task=Object.fromEntries(newTasksData.entries())
     task.id=crypto.randomUUID()
+    task.completed=false
     tasks.push(task)
     localStorage.setItem("tasks",JSON.stringify(tasks))
     console.log("Form submitted successfully")
@@ -38,20 +39,44 @@ function viewtasks(tasks)
         
     for (let date in groupedTasksByDate)
     {   
-       let card= document.createElement("div")
-       card.className="task-card"
-       card.innerHTML=
+       let cards=document.createElement("div")
+       cards.classList.add("task-cards")
+
+       let  datecontainer=document.createElement("div")
+       datecontainer.classList.add("datecontainer")
+       datecontainer.innerHTML=
        `
-        <h4>${date}</h4>
+        <h3>${date}</h3>
         `
+        cards.appendChild(datecontainer)
         //add the respective dates
         for(let task of groupedTasksByDate[date] )
-        {
+        {   
+            let card= document.createElement("div")
+            card.className="task-card"
             card.innerHTML +=
             `
                 <p>${task.Taskname}</p>
                 <p>${task.Category}</p>
                 `
+
+            let completedbutton=document.createElement("button")
+            completedbutton.textContent="Mark as Complete"
+            completedbutton.classList.add("btn")
+            completedbutton.classList.add("completed-btn")
+            completedbutton.addEventListener("click",
+                function()
+                {
+                    let taskindex=tasks.findIndex(function(item){return item.id===task.id})
+                    if(taskindex>=0)
+                    {
+                        task.completed=true
+                        localStorage.setItem("tasks",JSON.stringify(tasks))
+                        location.reload()
+                    }
+                }
+            )
+            
             let deletebutton=document.createElement("button")
             deletebutton.textContent="Delete Task"
             deletebutton.classList.add("delete-btn")
@@ -66,12 +91,19 @@ function viewtasks(tasks)
                     
                 }
             )
-                    deletecontainer=document.createElement("div")
+
+                    let completedcontainer=document.createElement("div")
+                    completedcontainer.appendChild(completedbutton)
+                    card.appendChild(completedcontainer)
+                    let deletecontainer=document.createElement("div")
                     deletecontainer.appendChild(deletebutton)
                     card.appendChild(deletecontainer)
+
+            
+        cards.appendChild(card)
         }
 
-        area.appendChild(card)
+        area.appendChild(cards)
         
 
     }
@@ -94,6 +126,23 @@ function dailytasks(tasks)
             dailytask.className="dailytask"
             dailytask.innerHTML+=
              `<p>${task.Taskname}</p> <p>${task.Category}</p>`
+            //creating the completed button and adding its functionality
+            let completedbutton=document.createElement("button")
+            completedbutton.textContent="Mark as Complete"
+            completedbutton.classList.add("btn")
+            completedbutton.classList.add("completed-btn")
+            completedbutton.addEventListener("click",
+                function()
+                {
+                    let taskindex=tasks.findIndex(function(item){return item.id===task.id})
+                    if(taskindex>=0)
+                    {
+                        task.completed=true
+                        localStorage.setItem("tasks",JSON.stringify(tasks))
+                        location.reload()
+                    }
+                }
+            )
             
              //creating the delete button for each task
             let deletebutton=document.createElement("button")
@@ -110,6 +159,10 @@ function dailytasks(tasks)
                     
                 }
             )
+
+            let completedcontainer=document.createElement("div")
+            completedcontainer.appendChild(completedbutton)
+            dailytask.appendChild(completedcontainer)
             deletecontainer=document.createElement("div")
             deletecontainer.appendChild(deletebutton)
             dailytask.appendChild(deletecontainer)            
@@ -137,6 +190,23 @@ function personaltasks(tasks)
             <p>${task.Taskname}</p>
             <p>${task.Category}</p>`
 
+            let completedbutton=document.createElement("button")
+            completedbutton.textContent="Mark as Complete"
+            completedbutton.classList.add("btn")
+            completedbutton.classList.add("completed-btn")
+            completedbutton.addEventListener("click",
+                function()
+                {
+                    let taskindex=tasks.findIndex(function(item){return item.id===task.id})
+                    if(taskindex>=0)
+                    {
+                        task.completed=true
+                        localStorage.setItem("tasks",JSON.stringify(tasks))
+                        location.reload()
+                    }
+                }
+            )
+
             let deletebutton=document.createElement("button")
             deletebutton.textContent="Delete Task"
             deletebutton.classList.add("delete-btn")
@@ -151,6 +221,9 @@ function personaltasks(tasks)
                     
                 }
             )
+            let completedcontainer=document.createElement("div")
+            completedcontainer.appendChild(completedbutton)
+            personaltask.appendChild(completedcontainer)
             deletecontainer=document.createElement("div")
             deletecontainer.appendChild(deletebutton)
             personaltask.appendChild(deletecontainer)
@@ -180,6 +253,23 @@ function schooltasks()
             tasknameparagraph.textContent=task.Taskname
             let categoryparagraph=document.createElement("p")
             categoryparagraph.textContent=task.Category
+            let completedbutton=document.createElement("button")
+            completedbutton.textContent="Mark as Complete"
+            completedbutton.classList.add("btn")
+            completedbutton.classList.add("completed-btn")
+            completedbutton.addEventListener("click",
+                function()
+                {
+                   let  taskindex=tasks.findIndex(function(item){return item.id===task.id})
+                    if(taskindex>=0)
+                    {
+                        task.completed=true
+                        localStorage.setItem("tasks",JSON.stringify(tasks))
+                        location.reload()
+                    }
+                }
+            )
+
             let deletebutton=document.createElement("button")
             deletebutton.textContent="Delete Task"
             deletebutton.classList.add("delete-btn")
@@ -197,6 +287,9 @@ function schooltasks()
             schooltask.appendChild(duedateparagraph)
             schooltask.appendChild(tasknameparagraph)
             schooltask.appendChild(categoryparagraph)
+            let completedcontainer=document.createElement("div")
+            completedcontainer.appendChild(completedbutton)
+            schooltask.appendChild(completedcontainer)
             let deletecontainer=document.createElement("div")
             deletecontainer.appendChild(deletebutton)
             schooltask.appendChild(deletecontainer)
@@ -215,7 +308,7 @@ function errands()
 
     for (let task of tasks)
     {
-        if(task.Category==="errands")
+        if(task.Category==="errands" && task.completed===false)
         {
             let errand=document.createElement("div")
             errand.classList.add("errand")
@@ -238,9 +331,30 @@ function errands()
                     location.reload()
                 }
             )
+            completedbutton=document.createElement("button")
+            completedbutton.textContent="Mark as Complete"
+            completedbutton.classList.add("btn")
+            completedbutton.classList.add("completed-btn")
+            completedbutton.addEventListener("click",
+                function(){
+                    let taskindex=tasks.findIndex(function(item)
+                    {return item.id===task.id})
+                    if(taskindex>=0)
+                     {
+                         task.completed=true
+                         localStorage.setItem("tasks",JSON.stringify(tasks))
+                         location.reload()
+                        }
+
+                         }
+            )
+
             errand.appendChild(duedateparagraph)
             errand.appendChild(tasknameparagraph)
             errand.appendChild(categoryparagraph)
+            let completedbuttoncontainer=document.createElement("div")
+            completedbuttoncontainer.appendChild(completedbutton)
+            errand.appendChild(completedbuttoncontainer)
             let deletecontainer=document.createElement("div")
             deletecontainer.appendChild(deletebutton)
             errand.appendChild(deletecontainer)
